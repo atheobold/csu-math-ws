@@ -1,0 +1,292 @@
+---
+title: "Before we Start"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::html_docco:
+    highlight: kate
+---
+
+
+```{r setup, include=FALSE}
+library(knitr)
+library(rmdformats)
+
+## Global options
+options(max.print="75")
+opts_chunk$set(echo=FALSE,
+               cache=TRUE,
+               prompt=FALSE,
+               tidy=TRUE,
+               comment=NA,
+               message=FALSE,
+               warning=FALSE)
+opts_knit$set(width=75)
+```
+
+<center>
+
+### Workshop Overview 
+
+__Teaching__: 15 minutes  
+__Exercises__: 5 minutes
+
+__Guiding Questions__:
+
+"How to find your way around RStudio?"  
+"How to interact with R?"  
+"How to manage your environment?"  
+"How to install packages?"  
+
+__Lesson Objectives__:
+
+Install latest version of R.  
+Install latest version of RStudio.  
+Navigate the RStudio GUI.  
+Install additional packages using the packages tab.  
+Install additional packages using R code.  
+ 
+
+</center>
+
+
+## What is R? What is RStudio?
+
+The term "`R`" is used to refer to both the programming language and the
+software that interprets the scripts written using it.
+
+[RStudio](https://rstudio.com) is currently a very popular way to not only write
+your R scripts but also to interact with the R software. To function correctly,
+RStudio needs R and therefore both need to be installed on your computer.
+
+To make it easier to interact with R, we will use RStudio. RStudio is the most
+popular IDE (Integrated Development Environment) for R. An IDE is a piece of
+software that provides tools to make programming easier.
+
+
+## Why learn R?
+
+### R does not involve lots of pointing and clicking, and that's a good thing
+
+The learning curve might be steeper than with other software, but with R, the
+results of your analysis do not rely on remembering a succession of pointing
+and clicking, but instead on a series of written commands, and that's a good
+thing! So, if you want to redo your analysis because you collected more data,
+you don't have to remember which button you clicked in which order to obtain
+your results; you just have to run your script again.
+
+Working with scripts makes the steps you used in your analysis clear, and the
+code you write can be inspected by someone else who can give you feedback and
+spot mistakes.
+
+Working with scripts forces you to have a deeper understanding of what you are
+doing, and facilitates your learning and comprehension of the methods you use.
+
+### R code is great for reproducibility
+
+Reproducibility is when someone else (including your future self) can obtain the
+same results from the same dataset when using the same analysis.
+
+R integrates with other tools to generate manuscripts from your code. If you
+collect more data, or fix a mistake in your dataset, the figures and the
+statistical tests in your manuscript are updated automatically.
+
+An increasing number of journals and funding agencies expect analyses to be
+reproducible, so knowing R will give you an edge with these requirements.
+
+
+### R is interdisciplinary and extensible
+
+With 10,000+ packages that can be installed to extend its capabilities, R
+provides a framework that allows you to combine statistical approaches from many
+scientific disciplines to best suit the analytical framework you need to analyze your
+data. For instance, R has packages for image analysis, GIS, time series, population
+genetics, and a lot more.
+
+
+### R works on data of all shapes and sizes
+
+The skills you learn with R scale easily with the size of your dataset. Whether
+your dataset has hundreds or millions of lines, it won't make much difference to
+you.
+
+R is designed for data analysis. It comes with special data structures and data
+types that make handling of missing data and statistical factors convenient.
+
+R can connect to spreadsheets, databases, and many other data formats, on your
+computer or on the web.
+
+
+### R produces high-quality graphics
+
+The plotting functionalities in R are endless, and allow you to adjust any
+aspect of your graph to convey most effectively the message from your data.
+
+
+### R has a large and welcoming community
+
+Thousands of people use R daily. Many of them are willing to help you through
+mailing lists and websites such as [Stack Overflow](https://stackoverflow.com/),
+or on the [RStudio community](https://community.rstudio.com/). Questions which
+are backed up with [short, reproducible code
+snippets](https://www.tidyverse.org/help/) are more likely to attract
+knowledgeable responses.
+
+
+### Not only is R free, but it is also open-source and cross-platform
+
+Anyone can inspect the source code to see how R works. Because of this
+transparency, there is less chance for mistakes, and if you (or someone else)
+find some, you can report and fix bugs.
+
+Because R is open source and is supported by a large community of developers and
+users, there is a very large selection of third-party add-on packages which are
+freely available to extend R's native capabilities.
+
+
+
+<figure>
+<div class="row">
+<div class="col-md-6">
+```{r rstudio-analogy, echo=FALSE, fig.show="hold", out.width="100%", fig.alt="RStudio extends what R can do, and makes it easier to write R code and interact with R."}
+knitr::include_graphics("../fig/r-manual.jpeg")
+```
+</div>
+<div class="col-md-6">
+```{r rstudio-analogy-2, echo=FALSE, fig.show="hold", fig.alt="automatic car gear shift representing the ease of RStudio", out.width="100%"}
+knitr::include_graphics("../fig/r-automatic.jpeg")
+```
+</div>
+</div>
+<figcaption>
+RStudio extends what R can do, and makes it easier to write R code and interact
+with R. <a href="https://unsplash.com/photos/D19rXKDUPYM">Top photo credit</a>; <a href="https://unsplash.com/photos/Wec3M4dY_LE">Bottom photo credit</a>.
+</figcaption>
+</figure>
+
+
+## A tour of RStudio
+
+
+## Knowing your way around RStudio
+
+Let's start by learning about [RStudio](https://www.rstudio.com/), which is an
+Integrated Development Environment (IDE) for working with R.
+
+The RStudio IDE open-source product is free under the
+[Affero General Public License (AGPL) v3](https://www.gnu.org/licenses/agpl-3.0.en.html).
+The RStudio IDE is also available with a commercial license and priority email
+support from RStudio, Inc.
+
+We will use the RStudio IDE to write code, navigate the files on our computer,
+inspect the variables we create, and visualize the plots we generate. RStudio
+can also be used for other things (e.g., version control, developing packages,
+writing Shiny apps) that we will not cover during the workshop.
+
+One of the advantages of using RStudio is that all the information
+you need to write code is available in a single window. Additionally, RStudio
+provides many shortcuts, autocompletion, and highlighting for the major file
+types you use while developing in R. RStudio makes typing easier and less
+error-prone.
+
+
+### The RStudio Interface
+Let's take a quick tour of RStudio.
+
+![RStudio_startup](../fig/R_00_Rstudio_01.png)
+
+RStudio is divided into four "panes". The placement of these
+panes and their content can be customized (see menu, Tools -> Global Options ->
+Pane Layout).
+
+The Default Layout is:
+
+- Top Left - **Source**: your scripts and documents
+- Bottom Left - **Console**: what R would look and be like without RStudio
+- Top Right - **Environment/History**: look here to see what you have done
+- Bottom Right - **Files** and more: see the contents of the project/working directory here, like your Script.R file
+
+
+## Installing additional packages using the packages tab
+
+In addition to the core R installation, there are in excess of
+10,000 additional packages which can be used to extend the
+functionality of R. Many of these have been written by R users and
+have been made available in central repositories, like the one
+hosted at CRAN, for anyone to download and install into their own R
+environment. You should have already installed the packages 'ggplot2'
+and 'dplyr. If you have not, please do so now using these instructions.
+
+You can see if you have a package installed by looking in the `packages` tab
+(on the lower-right by default). You can also type the command
+`installed.packages()` into the console and examine the output.
+
+![Packages pane](../fig/packages_pane.png)
+
+Additional packages can be installed from the ‘packages’ tab.
+On the packages tab, click the ‘Install’ icon and start typing the
+name of the package you want in the text box. As you type, packages
+matching your starting characters will be displayed in a drop-down
+list so that you can select them.
+
+![Install Packages Window](../fig/R_00_Rstudio_03.png)
+
+At the bottom of the Install Packages window is a check box to
+‘Install’ dependencies. This is ticked by default, which is usually
+what you want. Packages can (and do) make use of functionality
+built into other packages, so for the functionality contained in
+the package you are installing to work properly, there may be other
+packages which have to be installed with them. The ‘Install
+dependencies’ option makes sure that this happens.
+
+</br>
+</br>
+
+## Your turn! {.tabset}
+
+### Exercise 
+
+**Use both the Console and the Packages tab to confirm that you have the tidyverse
+installed.**
+
+### Solution
+
+Scroll through packages tab down to ‘tidyverse’.  You can also type a few
+characters into the searchbox.  
+
+The ‘tidyverse’ package is really a package of packages, including
+'ggplot2' and 'dplyr', both of which require other packages to run correctly.  
+
+All of these packages will be installed automatically. Depending on what
+packages have previously been installed in your R environment, the install of
+‘tidyverse’ could be very quick or could take several minutes. 
+
+As the install proceeds, messages relating to its progress will be written to
+the console. You will be able to see all of the packages which are actually
+being installed.
+
+### Additional remarks
+
+Because the install process accesses the CRAN repository, you
+will need an Internet connection to install packages.
+
+It is also possible to install packages from other repositories, as
+well as Github or the local file system, but we won’t be looking at these
+options in this lesson.
+
+## {-}
+
+</br>
+</br>
+
+## Installing additional packages using R code
+
+If you were watching the console window when you started the
+install of ‘tidyverse’, you may have noticed that the line
+
+```{r, eval = FALSE}
+install.packages("tidyverse")
+```
+
+was written to the console before the start of the installation messages.
+
+You could also have installed the **`tidyverse`** packages by running this command directly at the R terminal.
