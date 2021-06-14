@@ -1,2 +1,1 @@
-# csu-math-ws
-Materials for R portions of CSU Math Council workshop
+Material for the CSU Math Council workshop series
