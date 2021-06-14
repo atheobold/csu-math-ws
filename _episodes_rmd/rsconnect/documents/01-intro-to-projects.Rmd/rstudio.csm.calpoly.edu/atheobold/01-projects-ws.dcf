@@ -1,0 +1,12 @@
+name: 01-projects-ws
+title: 01-projects-ws
+username: atheobold
+account: atheobold
+server: rstudio.csm.calpoly.edu
+hostUrl: https://rstudio.csm.calpoly.edu/__api__
+appId: 335
+bundleId: 672
+url: https://rstudio.csm.calpoly.edu/intro-to-projects/
+when: 1623692931.35902
+asMultiple: FALSE
+asStatic: TRUE

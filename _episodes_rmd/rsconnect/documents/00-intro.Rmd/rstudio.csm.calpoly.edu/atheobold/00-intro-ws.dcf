@@ -1,0 +1,12 @@
+name: 00-intro-ws
+title: 00-intro-ws
+username: atheobold
+account: atheobold
+server: rstudio.csm.calpoly.edu
+hostUrl: https://rstudio.csm.calpoly.edu/__api__
+appId: 334
+bundleId: 670
+url: https://rstudio.csm.calpoly.edu/intro-to-rstudio/
+when: 1623690937.77767
+asMultiple: FALSE
+asStatic: TRUE

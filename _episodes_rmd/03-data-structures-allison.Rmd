@@ -1,0 +1,280 @@
+---
+title: "Working in R & Data Structures"
+teaching: 40
+exercises: 15
+questions:
+- "How do you run code in R?" 
+- "What are the basic object structures in R?"
+- "What are the basic data types in R?"
+objectives:
+- "To be able to identify the 5 main data types."
+- "To begin exploring data frames, and understand how they are related to vectors and lists."
+- "To be able to ask questions from R about the type, class, and structure of an object."
+keypoints:
+- "The basic data types in R are double, integer, complex, logical, character, and factor."
+source: Rmd
+---
+
+## Using R as a calculator
+
+The simplest thing you could do with R is to do arithmetic:
+
+__Practice__: Enter each of the following commands and confirm that the response
+is the correct answer.  
+
+</br>
+
+```{r calculator, eval = FALSE}  
+1 + 2 
+16*9
+sqrt(2)
+20/5
+18.5 - 7.21
+3 %% 2 ## what is this doing?
+```
+
+
+# Creating Objects 
+
+These operations, however, are not very interesting. To do more useful things in
+`R`, we need to assign values to an object. To create an object, we tell `R` the
+object's name, followed by an assignment arrow (`<-`), and finally the value of 
+the object. This would look something like this:
+
+`x <- 6`
+
+Once we execute/run this line of code, we notice that a new object appears in 
+our environment window. This window shows all of the objects that you have 
+created during your `R` session. The value of `x` appears next to it, since it 
+is a scalar. 
+
+__Remarks:__  
+
+* In the above code `<-` is the assignment operator. It assigns values on the 
+right to objects on the left. So, after executing `year <- 6`, the value of 
+`year` is `6`. The arrow can be read as `6` goes into `year`. For historical reasons,
+you can also use = for assignments, but not in every context. Because of the 
+slight differences in syntax, it is best practice to always use `<-` for 
+assignments.  
+
+    + In RStudio, typing Alt at the same time as the - key will write `<-` in a 
+    single keystroke. Neat!   
+
+* There are a few simple rules that apply when creating the same of a new object
+(like we did above):  
+
+    + `R` is case sensitive, so if you name your variable `cat` but then try to 
+    run the code `Cat + 2`, you will get an error saying that `Cat` does not exist  
+    + You also want your object's name to be explanatory, but not too long. 
+    Think `current_temperature` verses `current_temp`. Do you really want to 
+    type out temperature every time?  
+    + Finally, you cannot begin any object's name with a number. You can end a 
+    name with a number (e.g. clean_data2), but does that give you much 
+    information about what is in the contents of `clean_data2` relative to 
+    `clean_data`?    
+    + The name cannot contain any punctuation symbols, except for `.` and `_` 
+    (`.` is not recommended)  
+    + You should not name your object the same as any common functions you may 
+    use (`mean`, `sd,` etc.)  
+    
+* Using a consistent coding style makes your code clearer to read for your 
+future self and your collaborators. In `R`, three popular style guides are 
+Google's (https://google.github.io/styleguide/Rguide.html), Jean Fan's 
+(https://jef.works/R-style-guide/) and the tidyverse's 
+(https://style.tidyverse.org/). The tidyverse's is very comprehensive and may 
+seem overwhelming at first, but you'd be surprised what good code writing habits
+can do for your collaborations!
+
+
+## Clean Code 
+
+Yes, writing code may be completely new to you, but there is a difference between
+code that looks nice and code that does not. Generally, object names should be 
+nouns and function names should be verbs. It is also important that your code 
+looks presentable, so that a friend/college/professor can read it and understand
+what you are doing. For these reasons, there are style guides for writing code 
+in `R`. The two main style guides are Google's 
+\href{https://google.github.io/styleguide/Rguide.xml}{(link)} and the slightly 
+more comprehensive Tidyverse style guide 
+\href{https://style.tidyverse.org/}{(link)}. Optionally, you can install `lintr`
+to automatically check and correct for issues in your code styling. More on 
+packages to come!
+
+
+# Working with Objects 
+
+When you assign a value to an object (like we did previously) `R` does not output
+anything by default. If you enclose the code you wrote in parenthesis, then `R` 
+will output the value of the object you created. 
+
+\vspace{0.25cm}
+
+```{r}
+(x <- 6)
+```
+
+\vspace{0.25cm}
+
+Once the object has been created, you can use it! Run the following lines of code:
+
+\vspace{0.25cm}
+
+```{r}
+2.2 * x
+4 + x 
+x %% 3
+```
+
+\vspace{0.25cm}
+
+We can also overwrite an object's value, so that it has a new value. In the code
+below create a new object `y` and then we give `x` a new value of 2. 
+
+\vspace{0.25cm}
+
+```{r}
+y <-  x + 6
+x <- 2 
+```
+
+\vspace{0.25cm}
+
+**Exercise 1:** What is the current value of `y`? 12 or 8?  
+
+# Working with Different Data Types 
+
+A vector is the basic data type in `R`. A vector is a series of values, which 
+can be either numbers or characters, but every entry of the vector must be the 
+same data type. `R` can tell that you are building a vector when you use the 
+`c()` function, which concatenates a series of entries together. 
+
+\vspace{0.25cm}
+
+```{r}
+temps <- c(50, 55, 60, 65)
+temps
+```
+
+\vspace{0.25cm}
+
+To make a vector of characters, you are required to use quotation marks (" ") to 
+indicate to `R` that the value you are using is not an object you already 
+created in `R`. 
+
+\vspace{0.25cm}
+
+```{r}
+animals <- c("cat", "dog", "bird", "fish")
+animals
+```
+
+\vspace{0.25cm}
+
+Important features of a vector is the type of data they store. Run the following
+lines of code and decide what type of data the vectors contain. 
+
+\vspace{0.25cm}
+
+```{r, eval = FALSE}
+class(temps)
+class(animals)
+```
+
+\vspace{0.25cm}
+
+**Exercise 2:** Create a vector, named `dec`, that contains decimal valued numbers. Then check
+what data type does that vector contain?
+
+```{r}
+# Exercise 2 code here!
+```
+
+\newpage
+
+Another possible data type is a logical (Boolean) value. This type of data  
+takes on values of `TRUE` and `FALSE`. But, we said that vectors could only be 
+numbers or characters. If `TRUE` and `FALSE` don't have quotations around them,
+then they aren't characters. So, then they must be numbers. What numbers do you 
+think they are?  
+
+\vspace{0.25cm}
+
+```{r}
+logic <- c(TRUE, FALSE, FALSE, TRUE)
+class(logic)
+```
+
+\vspace{0.25cm}
+
+**Exercise 3:** What happens when we try to mix different data types into one 
+vector?
+Speculate what will happen when we run each of the following lines of code:
+
+\vspace{0.25cm}
+
+```{r}
+num_char <- c(1, 2, 3, "a")
+num_logic <- c(1, 2, 3, FALSE)
+char_logic <- c("a", "b", "c", TRUE)
+guess <- c(1, 2, 3, "4")
+```
+
+\vspace{0.25cm}
+
+In each of these vectors, the two types of data were *coerced* into a single 
+data type. This happens in a hierarchy, where some data types get preference 
+over others. Can we draw a diagram of the hierarchy?  
+
+# Lists  
+ 
+While the elements of vectors have to be of the same data type, a list is a
+special vector in `R` that allows for you to store a variety of types of 
+objects. If you have a vector, a matrix, a character, you can store all of them
+into one list object!
+
+The arguments to the list function are the components of the list. Where the 
+components can be characters, vectors, matrices, or other data structures. 
+Here, we create a list whose components are the three vectors we've been 
+working with:
+
+\vspace{0.25cm}
+
+```{r}
+my_first_list <- list(animals, temps, logic)
+my_first_list
+```
+
+\vspace{0.25cm}
+
+We notice that when printing a list, the output looks a bit different. There 
+are a whole bunch of brackets! Let's break them down. I like to think of a list
+as a shelf with cubby holes. The cubby holes are the components of the list, 
+but there are elements in each cubby.  
+
+* To get to a specific component (cubby) of a list, you use the double brackets
+next to the name of the list (e.g `my_first_list[[1]]`).  
+* To access the elements inside each cubby, you then use single square brackets 
+(e.g. `my_first_list[[1]][2]`). 
+
+<center> 
+
+![](images/list_example.JPG)
+
+</center>
+
+\vspace{0.5cm}
+
+### Named Lists
+
+```{r}
+my_named_list <- list(title = "statistics", 
+                      numbers = 1:10,
+                      data = TRUE)
+my_named_list
+```
+
+\vspace{0.25cm}
+
+We see the output for a named list is slightly different. Instead of double 
+brackets next to each component, there are now `$` and names of the variable. 
+This will help you understand the structure of data.frames (coming up next)!
