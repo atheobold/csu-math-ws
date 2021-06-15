@@ -1,7 +1,5 @@
 ---
 title: "Starting with Data"
-teaching: 50
-exercises: 30
 date: "`r Sys.Date()`"
 output:
   rmdformats::html_docco:

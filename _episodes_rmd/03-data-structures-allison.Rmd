@@ -51,11 +51,11 @@ is a scalar.
 __Remarks:__  
 
 * In the above code `<-` is the assignment operator. It assigns values on the 
-right to objects on the left. So, after executing `year <- 6`, the value of 
-`year` is `6`. The arrow can be read as `6` goes into `year`. For historical reasons,
-you can also use = for assignments, but not in every context. Because of the 
-slight differences in syntax, it is best practice to always use `<-` for 
-assignments.  
+right to objects on the left. So, after executing `year <- 2006`, the value of 
+`year` is `2006`. The arrow can be read as `2006` goes into `year`. For
+historical reasons, you can also use = for assignments, but not in every
+context. Because of the slight differences in syntax, it is best practice to
+always use `<-` for assignments.  
 
     + In RStudio, typing Alt at the same time as the - key will write `<-` in a 
     single keystroke. Neat!   

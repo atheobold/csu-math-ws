@@ -1,0 +1,630 @@
+---
+title: "Working with Data"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::html_docco:
+    highlight: kate
+    code_download: true
+---
+
+
+```{r setup, include=FALSE}
+library(knitr)
+library(rmdformats)
+
+## Global options
+options(max.print="75")
+opts_chunk$set(cache=TRUE,
+               prompt=FALSE,
+               tidy=TRUE,
+               comment=NA,
+               message=FALSE,
+               warning=FALSE)
+opts_knit$set(width=75)
+```
+
+
+# Importing Data  
+
+* Use the __Import Dataset__ button in the __Environment__ tab  
+* Choose the __From CSV__ option  
+* Click on the __Browse__ button  
+* Direct the computer to where you saved the BlackfootFish data file, click __open__  
+* It will bring up a preview of the data 
+* Uncheck the box labeled "Strings as factors"  
+* Click on the __Import__ button  
+
+Notice the code that outputs in the console (the bottom left square). This is 
+the code that you could have typed in the code chunk below to import the data 
+yourself. Copy and paste the code that was output in the code chunk below.  
+
+```{r data, echo = FALSE, message = FALSE, warning = FALSE, purl = TRUE}
+library(readr)
+BlackfootFish <- read.csv("data/BlackfootFish.csv",
+                          stringsAsFactors = FALSE)
+# copy and paste the code that was used by R to import the data 
+# be careful to only copy the code that is next to the > signs! 
+```
+
+\vspace{0.5cm}
+
+```{r fakeData}
+# copy and paste the code that was used by R to import the data 
+# be careful to only copy the code that is next to the > signs! 
+```
+
+# Structure of Data  
+
+The data we will use is organized into data tables. When you imported the 
+BlackfootFish data into RStudio was saved as an object. You are able to inspect
+the structure of the BlackfootFish object using functions built in to `R` 
+(no packages necessary).  
+
+Run the following code. What is output from each of the following commands?
+
+\vspace{0.25cm}
+
+```{r structure}
+class(BlackfootFish) ## What is the object class of the data?
+dim(BlackfootFish) ## What is the first number represent? What about the second number?
+names(BlackfootFish) ## What does this output refer to?
+str(BlackfootFish) ## What is the structure of the data?
+```
+
+\newpage 
+
+```{r}
+summary(BlackfootFish) ## What is the data type of each variable in our dataset?
+typeof(BlackfootFish) ## What is the storage mode of a data.frame?
+```
+
+\vspace{0.5cm}
+
+When we inspect dataframes, or other objects in `R`, there are some general 
+functions that are useful to check the content/structure of the data. 
+Here are some:
+
+- size:  
+    + `dim(data)`: rows and columns  
+    + `nrow(data)`: number of rows  
+    + `ncol(data)`: number of columns  
+
+
+- content:  
+    + `head(data)`: first 6 rows  
+    + `tail(data)`: last 6 rows  
+    + `View(data)`: opens viewer window in separate tab  
+    
+
+- names:  
+    + `colnames(data)`: column names of dataframe  
+    + `rownames(data)`: row names of dataframe  
+
+
+- summary of content:  
+    + `str(data)`: structure of object and information about the columns  
+    + `glimpse(data)`: similar information to `str`, but neater output  
+    + `summary(data)`: summary statistics for each column  
+  
+\vspace{0.5cm}
+
+*Note:* Many of these are generic functions that will work on other data types, 
+not just on `data.frame`s. 
+
+\newpage
+
+# Dataframes 
+
+What is a dataframe? A dataframe is a type of `R` object and is the *de facto* 
+structure of tabular data. You can create dataframes by hand, but most of us do 
+not use `R` to input our data by hand. Instead, we import our data using `R` 
+commands that read in spreadsheets (`read.csv`, `read_csv`, `read_excel` etc.). 
+A dataframe is a set of columns, where each column is a vector. Thus, columns 
+have the same data type *within* the column, but potentially different data types *across* columns. 
+
+For example, the columns `trip`, `mark`, and `year` are integers (whole numbers),
+`weight` and `length` are numeric (numbers with decimals), and `section` and 
+`species` are characters. 
+
+
+# Extracting Data  
+
+If we were interested in accessing a specific variable in our dataset, we can 
+use the `$` command. This command extracts the specified variable (on the right
+of the `$` sign) from the dataset. When this is extracted, `R` views the variable
+as a vector of entries, which is what the [1:18352] refers to.
+
+\vspace{0.25cm}
+
+```{r extract, tidy = TRUE, purl = TRUE}  
+years <- BlackfootFish$year 
+## extracts year from the dataset and saves it into a new variable named year
+str(years) ## using the new variable (remember case matters!)
+## How would you determine how long the vector is?
+```
+
+\vspace{0.25cm}
+
+Another method for accessing data in the dataset is using matrix notation 
+([row, column]). If you look to your right in the __Environment__ window, you 
+notice that RStudio tells you the dimensions of the BlackfootFish data. You can 
+(roughly) view the dataset as a matrix of entries, with variable names for each 
+of the columns. I could instead use bracket notation to perform the same task as
+above, using the following code.  
+
+\vspace{0.25cm}
+
+```{r bracket, purl = TRUE}  
+years <- BlackfootFish[, 5] 
+## This takes ALL rows of data but only the fifth column
+## Same as years <- BlackfootFish[1:18352, 5]
+str(years)
+```
+
+## Practice:
+
+The following is a preview of the dataframe `df`: 
+
+```{r, echo = FALSE}
+df <- data.frame(
+  x = c("H", "N", "T", "W", "V"), 
+  y = c("May", "Oct", "Mar", "Aug", "Feb"),
+  z = c(2010, 2015, 2018, 2017, 2019)
+  )
+df
+```
+
+\vspace{0.25cm}
+
+**Exercise 4:** What would be output if you entered: `df[3, ]`?  
+
+\vspace{0.25cm}
+
+**Exercise 6:** What would you input to get an output of `2015`? Can you 
+think of two ways to do it?
+
+\vspace{0.25cm}
+
+**Exercise 7:** How would you pull off only columns `x` and `y`? What about 
+pulling off only columns `x` and `z`?
+
+\vspace{0.25cm}
+
+**Exercise 8:** How would you modify the script below, to get an output 
+of `[1] 22 24`? 
+
+\vspace{0.25cm}
+
+```{r, eval = FALSE}
+s <- c(22, 24, 49, 18, 1, 6)
+s[]
+```
+
+\vspace{0.25cm}
+
+**Exercise 9:** What would be output if you entered: `s[3, ]`?  
+
+\vspace{0.25cm}
+
+# Changing Data Type  
+
+By default, when building or importing a data frame, the columns that contain 
+characters (i.e. text) are coerced (= converted) into factors. Depending on what
+you want to do with the data, you may want to keep these columns as character. 
+To do so, read.csv() and read.table() have an argument called stringsAsFactors 
+which can be set to FALSE. This is what happened when we unchecked the 
+"stringsAsFactors" box when importing our data. 
+
+In most cases, it is preferable to set stringsAsFactors = FALSE when importing 
+data and to convert as a factor only the columns that require this data type. 
+But what is a factor? 
+
+Consider the variables species and section. These variables represent a
+broader class of what we call categorical variables. In `R` there are two ways 
+to store this information, (1) as a series of `character` strings, or (2) as a 
+`factor`. In the early days of coding in `R`, factors were more efficient than 
+characters, since you only need to store the level of the factor each 
+observation went with. 
+
+While factors are still useful in today's statistical analyses and data 
+visualizations, they can be tricky to deal with. When you convert a variable 
+to a factor, for many operations you will get different results than for a 
+character (McNamara & Horton, 2017). 
+
+In these data section has two levels (Johnsrud and ScottyBrown) and species has
+four levels (RBT, WCT, Bull, and Brown). If we want `R` to view these variables
+as factors instead of characters, we need to change their data type.   
+
+\vspace{0.25cm}
+
+```{r factors, purl = TRUE}  
+unique(BlackfootFish$species) ## tells you the unique values of species
+unique(BlackfootFish$section) ## tells you the unique values of section  
+BlackfootFish$speciesF <- as.factor(BlackfootFish$species) 
+## creates a new variable that is the factor version of species
+BlackfootFish$sectionF <- as.factor(BlackfootFish$section) 
+## creates a new variable that is the factor version of section
+```
+
+\newpage
+
+There is also a function that will allow for you to specify the order of the 
+levels of a factor! As we saw before, the `as.factor` function chooses the 
+levels alphabetically. Suppose you would like for the species to be in the 
+following order: Bull, Brown, RBT, and WCT. 
+
+Using the `factor` function this would look like:
+
+\vspace{0.25cm}
+
+```{r, tidy = FALSE}
+BlackfootFish$speciesF <- factor(BlackfootFish$species, 
+                                levels = c("Bull", "Brown", "RBT", "WCT"))
+```
+
+## Practice:  
+
+**Exercise 11:** Year was saved as an integer data type (1989 - 2006), but we 
+may want to consider it to be a categorical variable (a factor). Write the `R` 
+code to create a new variable called `yearF` that is a factor of `year` 
+(as you did with section and species). 
+
+```{r verify}
+```
+
+\vspace{0.25cm}
+
+**Exercise 12:** Now, verify that `yearF` is viewed as a categorical variable, 
+with the same levels as `year`. (hint: you have already used three functions 
+that would do this for you)  
+
+\vspace{0.25cm}
+
+The issue with factors, lies with if/when you want to change it back to a 
+number or character. In the code below I've decided that I don't want year 
+to be a factor and want to change it back to numeric. What happens when I use 
+the `as.numeric()` function on the yearF variable?  
+
+\vspace{0.25cm}
+
+```{r, echo = FALSE}
+BlackfootFish$yearF <- as.factor(BlackfootFish$year)
+```
+
+```{r factor_convert, tidy = FALSE}
+year_recover <- as.numeric(BlackfootFish$yearF)
+ds <- data.frame(original = BlackfootFish$yearF, 
+                 recovered = year_recover)
+head(ds)
+```
+
+# Packages  
+
+As we mentioned previously, `R` has many packages, which people around the world
+work on to provide and maintain new software and new capabilities for `R`. 
+You will slowly accumulate a number of packages that you use often for a variety
+of purposes. In order to use the elements (data, functions) of the packages, you
+have to first install the package (only once) and then load the package (every 
+time).  
+
+We're going to install a few packages that are often used.  
+
+* Use the __Install__ button in the __Packages__ tab  
+* Type in `devtools` and `tidyverse` into the blank line (separated by a comma)  
+* Check the __Install dependencies__ box  
+* Click on the __Import__ button  
+
+\newpage 
+
+There will be a large amount of output coming out of the console. This output is
+`R` trying to download the package(s) you requested by contacting the mirror you
+chose for it to use when downloading (I chose Northern Michigan University). 
+Once the computer has downloaded the packages, it will tell you that 
+"`The downloaded binary packages are in`", followed by the location of the files.  
+
+Now that the files are downloaded, we need to load them in order to use them. 
+The following code will load each package, please run it!  
+
+\vspace{0.25cm}
+
+```{r packages}  
+library(devtools)
+library(tidyverse)
+```
+
+\vspace{0.25cm}
+
+Notice that when loading the `tidyverse` package that there is a large amount of
+output. This output is telling you all of the other packages that are loaded in 
+the `tidyverse` package, as well as the functions in the `tidyverse` package
+that overwrite (mask) functions from base `R`.  
+
+This is the process you go through if you ever find packages that you would 
+like to use! Often packages that you install will need to be updated. To update
+a package you can click on the "Tools" tab, then click on "Check for Package
+Updates". This will bring up a window that will list all of the packages that 
+have newer versions than what you have. Click on the packages that you wish to 
+update, or click on the "Select All" button.  
+
+
+# Finding Help  
+
+One of the chief reasons for `R`'s religious following is its wonderful 
+documentation. If you know a function does what you want (say find the variance),
+but are not quite sure how it's spelled, what arguments it takes, or what package
+it lives in, don't fret! The `?` and `help()` commands are very powerful. For 
+functions, placing the `?` before the name, will tell `R` to search for that 
+name in all of the functions, in all of the packages you have installed.  
+
+* If it finds _one_ __identical match__, it will display the help file for that 
+function in the Help tab in the bottom-right corner.  
+* If it finds _more than one_ __identical match__, it will display the functions,
+in their respective packages, that you have to choose from.  
+* If it find _no_ __identical match__, it will tell you that "`No documentation 
+for ____ in specified packages and libraries:,`" and suggests you use a `??` 
+instead.  
+    
+    + A `??` in front of the function name will search __all of `R`__ for named 
+    functions similar to what you typed.  
+    + The output will tell you what package the function is in, as well as the 
+    function's name (`package::function`).  
+
+\vspace{0.25cm}    
+
+If you would like help on a particular package, say one that you just downloaded,
+then you can use the same command(s) to get help.  These commands will load up 
+a help page (in RStudio) in the Help pane. Each help page is broken down into 
+sections:  
+
+* Description: An extended description of what the function does.   
+* Usage: The arguments of the function and their default values.     
+* Arguments: An explanation of the object each argument is expecting.  
+* Details: Any important details to be aware of.    
+* Value: The object the function returns.      
+* See Also: Any related functions that may be useful.    
+* Examples: Some examples for how to use the function.
+
+# Functions  
+
+In `R` there are both functions that are built in (require no package to be 
+loaded), as well as functions that are housed within specific packages. You have
+already used a few built in functions to inspect the structure of the 
+BlackfootFish data (`str`, `class`, `summary`). As we know, a function 
+transforms an input (potentially multiple) into an output. You have to provide
+`R` with the inputs (arguments) required for the function to generate an output.
+The argument(s) inside a function happen after the `(` symbol. You know an 
+object is a function when it is immediately followed by a  `(` and the 
+corresponding closing `)` comes after the arguments are complete. The output of 
+a function does not have to be numerical and it typically is not a single 
+number, it can be a set of things or a dataset.   
+
+Arguments describe the details of what a function is to do. Some functions take 
+arguments that are specified by the user, or, if left undeclared, take on 
+default values. These arguments are typically given names (as seen in the help
+file), but the arguments are assumed to follow the order the function 
+expects if they are not named (also stated in the help file). When naming an 
+argument, the name of the argument is followed by an `=` sign and then the value
+of the argument. Notice that here we are using the `=` to declare what value 
+each argument is taking on, we **are not** creating a new variable with that 
+value assigned to it.   
+
+Suppose we wanted to create a vector of 10 zeros. To do this, we would use both
+the `rep` function:  
+
+\vspace{0.25cm}
+
+```{r rep, purl = TRUE} 
+# ?rep
+rep(0, times = 10) ## repeating 0 three times
+rep(times = 10, 0) ## switching order of arguments
+rep(0, 10) ## no named arguments
+rep(10, 0) ## not what we wanted!
+```
+
+\vspace{0.25cm}
+
+Now let's look over some other functions that are often used: 
+
+\vspace{0.25cm}
+
+```{r functions, purl = TRUE, eval = FALSE} 
+mean(BlackfootFish$weight)  ## takes a numerical input, but there are NA's in our data
+mean(BlackfootFish$weight, argument here! )  ## add in the argument that removes the NA's
+median(BlackfootFish$species) ## gives an error because the input is not the correct data type  
+cor(BlackfootFish$length, BlackfootFish$weight) ## takes multiple inputs separated by a comma
+## Does cor have an option to remove NA's?
+```
+
+\vspace{0.25cm}
+
+As seen in the functions above, some functions have *optional* arguments. If 
+they are not specified by the user, then they take on their default value 
+(`FALSE` for `na.rm`). These options control the behavior of the functions, 
+such as whether it includes/excludes NA values. 
+
+
+# Cleaning Data  
+
+In many instances, you will deal with data that are not "clean". Based on the 
+output we received from the `mean()` function, we know that there are NA's in 
+the BlackfootFish data, possibly across a variety of variables. Before we used 
+`na.rm` as an option to remove NA's *within* a function, but the `na.omit` 
+function takes a dataframe and removes any NA's from that dataset. Based on the
+output below, how many rows in the BlackfootFish data have an NA present?  
+
+\vspace{0.5cm}
+
+```{r NA, purl = TRUE, tidy = TRUE}
+dim(BlackfootFish) ## gives the dimensions of the dataset in (row, column) format  
+dim(na.omit(BlackfootFish)) 
+## na.omit takes dataframes, matricies, and vectors and returns the object with incomplete cases removed (NA's removed)
+```
+
+\vspace{0.5cm}
+
+__Remark:__ The computer is using an algorithm to return a dataset with no NA 
+values anywhere in it. This algorithm goes through every row of the dataset and
+(roughly) has the following steps,  
+
+* Inspect the row to see if there is an NA anywhere in that row  
+* If there is an NA in that row, the logical (`is.na`) evaluates to TRUE, and 
+the row is deleted  
+* If there is not any NA's in that row, the logical evaluates to FALSE, and the 
+row is retained  
+* Once it has stepped through every row, the function outputs the "cleaned" 
+dataframe
+
+# Subsetting Data  
+
+If we wish to remove all of the NA's from the dataset, we can simply use the 
+`na.omit` command from above. We can save the new "clean" dataset under a new name
+(creating a new object) or under the same name as before (replacing the old 
+object with the new object).
+
+\vspace{0.25cm}
+
+```{r clean, tidy = TRUE}
+BlackfootFish_clean <- na.omit(BlackfootFish) 
+## Creates a new dataframe, where the NA's have all been removed 
+```
+
+\vspace{0.25cm}
+
+# Data Visualization  
+
+There are many different genres of data graphics, with many different variations
+on each genre. Here are some commonly encountered kinds:  
+
+* __scatterplots__: showing relationships between two quantitative variables    
+* __distributions__: showing distributions of a single quantitative variable      
+* __bar charts__: displaying frequencies or densities of a single categorical 
+variable  
+
+## Scatterplots
+
+The main purpose of the scatterplot is to show the relationship between two 
+variables across several or many cases. Most often, there is a Cartesian 
+coordinate system in which the x-axis represents one variable and the y-axis the
+second variable.  
+
+\vspace{0.25cm}
+
+```{r scatter1, tidy = FALSE}
+#?plot()
+plot(length ~ weight, 
+     data = BlackfootFish_clean) 
+```
+
+\newpage
+
+```{r scatter2, tidy = FALSE}
+plot(length ~ weight, 
+     data = BlackfootFish_clean, 
+     xlab = "Weight (gm)", ## adding in axis labels
+     ylab = "Length (cm)", 
+     las = 1 ## changing orientation of axis labels
+     ) 
+```
+
+## Distribution
+
+A histogram shows how many observations fall into a given range of values of a 
+variable.  
+
+\vspace{0.25cm}
+
+```{r hist1, purl = TRUE}
+hist(BlackfootFish_clean$length) 
+```
+
+\newpage
+
+```{r hist2, tidy = FALSE}
+hist(BlackfootFish_clean$length, 
+     freq = F) ## converts to a density plot (area adds to 1) 
+```
+
+\vspace{0.25cm}
+
+```{r, eval = FALSE}
+## Does freq need to be named?
+hist(BlackfootFish_clean$length, FALSE)
+## Why is there an error about the "number of breaks"?
+```
+
+\vspace{0.25cm}
+
+```{r hist3, tidy = FALSE}
+hist(BlackfootFish_clean$length, 
+     freq = F, 
+     xlab = "Length", ## adds x-axis label 
+     main = "Fish Lengths in Blackfoot River" ## adds title to plot
+     ) 
+```
+
+\newpage
+
+```{r hist4, tidy = FALSE}
+hist(BlackfootFish_clean$length, 
+     freq = F, 
+     nclass = 50, ## changes the number of bins 
+     xlab = "Length", 
+     main = "Fish Lengths in the Blackfoot River", 
+     las = 1 ## changes orientation of axis labels
+     ) 
+```
+
+## Side-by-Side Boxplots  
+
+The familiar boxplot is effective when the objective is to compare the 
+distribution of a quantitative variable across different levels of a categorical
+variable. 
+
+\vspace{0.25cm}
+
+```{r boxplot, tidy = FALSE, fig.height = 4, fig.width = 5} 
+## What other options are available to add to your boxplot?
+boxplot(weight ~ species, 
+        data = BlackfootFish_clean)
+```
+
+\vspace{0.25cm} 
+
+## Bar Charts  
+
+Bar charts are an effective way to compare the frequencies of levels of a 
+categorical variable. 
+
+\vspace{0.25cm}
+
+```{r bar, tidy = FALSE, fig.height = 5}
+section <- table(BlackfootFish_clean$section)
+## tables the number of fish that were caught in each section
+barplot(section, 
+        xlab = "Section", ## adds axis labels to plot 
+        ylab = "Number of Fish", 
+        main = "Fish Caught by Section", ## adds title to plot
+        las = 1, ## changes orientation of axis labels
+        col = "blue", ## specifies what color the bars should be
+        ylim = c(0, 12000) ## specifies what range of y-values to plot
+        )
+```
+
+\vspace{0.25cm}
+
+## Practice  
+
+**Exercise 13:**  Using statistics or graphics, which year in our dataset had the 
+most fish caught?  
+
+
+```{r}
+```
+
+\vspace{2cm}
+
+**Exercise 14:** Make a boxplot of the fish weights over the different years in 
+the dataset.  
+
+```{r}
+```
