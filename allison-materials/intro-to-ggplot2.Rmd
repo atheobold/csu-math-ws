@@ -1,0 +1,162 @@
+---
+title: Creating Publication-Quality Graphics with ggplot2
+date: "`r Sys.Date()`"
+output:
+  rmdformats::html_docco:
+    highlight: kate
+---
+
+
+```{r setup, include=FALSE}
+library(knitr)
+library(rmdformats)
+
+## Global options
+options(max.print="75")
+opts_chunk$set(cache=TRUE,
+               prompt=FALSE,
+               tidy=TRUE,
+               comment=NA,
+               message=FALSE,
+               warning=FALSE)
+opts_knit$set(width=75)
+```
+
+<center>
+
+### Workshop Overview 
+
+__Teaching__: 60 minutes  
+__Exercises__: 20 minutes
+
+__Guiding Questions__:
+
+What are the components of a ggplot?  
+How do I create scatterplots, boxplots, and barplots?  
+How can I change the aesthetics (ex. colour, transparency) of my plot?  
+How can I create multiple plots at once?  
+
+__Lesson Objectives__:
+
+Produce scatter plots, boxplots, and barplots using ggplot.  
+Set universal plot settings.  
+Describe what faceting is and apply faceting in ggplot.  
+Modify the aesthetics of an existing ggplot plot (including axis labels and
+colour).  
+Build complex and customized plots from data in a data frame.  
+ 
+</center>
+
+We start by loading the required package. **`ggplot2`** is also included in the
+**`tidyverse`** package.
+
+```{r load-package, message=FALSE, purl=FALSE}
+library(tidyverse)
+```
+
+If not still in the workspace, load the data we saved in the previous lesson.
+
+
+```{r load-data, purl=FALSE}
+gapminder <- read_csv(
+  here::here("data", "gapminder_data.csv")
+)
+```
+
+
+## Plotting with **`ggplot2`**
+
+**`ggplot2`** is a plotting package that makes it simple to create complex plots
+from data stored in a data frame. It provides a programmatic interface for
+specifying what variables to plot, how they are displayed, and general visual
+properties. Therefore, we only need minimal changes if the underlying data
+change or if we decide to change from a bar plot to a scatterplot. This helps in
+creating publication quality plots with minimal amounts of adjustments and
+tweaking.
+
+**`ggplot2`** functions work best with data in the 'long' format, i.e., a column for every
+dimension, and a row for every observation. Well-structured data will save you
+lots of time when making figures with **`ggplot2`**
+
+ggplot graphics are built step by step by adding new elements. Adding layers in
+this fashion allows for extensive flexibility and customization of plots.
+
+Each chart built with ggplot2 must include the following
+
+* Data  
+* Aesthetic mapping (aes)  
+
+  + Describes how variables are mapped onto graphical attributes  
+  + Visual attribute of data including x-y axes, color, fill, shape, and alpha  
+* Geometric objects (geom)  
+
+  + Determines how values are rendered graphically, as bars (`geom_bar`), scatterplot (`geom_point`), line (`geom_line`), etc. 
+
+Thus, the template for graphic in ggplot2 is:
+
+```
+<DATA> %>%
+    ggplot(aes(<MAPPINGS>)) +
+    <GEOM_FUNCTION>()
+```
+
+## Your first ggplot
+
+Let's start off with an example:
+
+```{r lifeExp-vs-gdpPercap-scatter, message=FALSE}
+library("ggplot2")
+ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp)) +
+  geom_point()
+```
+
+So the first thing we do is call the `ggplot` function. This function lets R
+know that we're creating a new plot, and any of the arguments we give the
+`ggplot` function are the *global* options for the plot: they apply to all
+layers on the plot.
+
+We've passed in two arguments to `ggplot`. First, we tell `ggplot` what data we
+want to show on our figure, in this example the gapminder data we read in
+earlier. For the second argument,  we passed in the `aes` function, which
+tells `ggplot` how variables in the **data** map to *aesthetic* properties of
+the figure, in this case the **x** and **y** locations. Here we told `ggplot` we
+want to plot the "gdpPercap" column of the gapminder data frame on the x-axis,
+and the "lifeExp" column on the y-axis. Notice that we didn't need to explicitly
+pass `aes` these columns (e.g. `x = gapminder[, "gdpPercap"]`), this is because
+`ggplot` is smart enough to know to look in the **data** for that column!
+
+By itself, the call to `ggplot` isn't enough to draw a figure:
+
+```{r}
+ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp))
+```
+
+We need to tell `ggplot` how we want to visually represent the data, which we
+do by adding a new **geom** layer. In our example, we used `geom_point`, which
+tells `ggplot` we want to visually represent the relationship between **x** and
+**y** as a scatterplot of points:
+
+```{r lifeExp-vs-gdpPercap-scatter2}
+ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp)) +
+  geom_point()
+```
+
+### Your turn! 
+
+## {.tabset}
+
+### Challenge 1
+
+Modify the example so that the figure shows how life expectancy has
+changed over time:
+
+### Challenge 2
+
+In the previous examples and challenge we've used the `aes` function to tell
+the scatterplot **geom** about the **x** and **y** locations of each point.
+Another *aesthetic* property we can modify is the point *color*. Modify the
+code from the previous challenge to **color** the points by the "continent"
+column. What trends do you see in the data? Are they what you expected?
+
+##
+
